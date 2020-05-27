@@ -49,7 +49,7 @@
 			processor.ProcessTexture(input, TextureParameters);
 
 			// mark detected objects
-			List<OpenCvSharp.Rect> faceBounds = processor.MarkDetected();
+			List<OpenCvSharp.Rect> faceBounds = processor.getFaceBounds();
 			if(faceBounds.Count > 0)
 			{
 				//print("Check");
