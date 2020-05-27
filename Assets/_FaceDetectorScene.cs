@@ -48,23 +48,20 @@
 			// detect everything we're interested in
 			processor.ProcessTexture(input, TextureParameters);
 
-			// mark detected objects
+			// get places of detected faces
 			List<OpenCvSharp.Rect> faceBounds = processor.getFaceBounds();
 			if(faceBounds.Count > 0)
 			{
-				//print("Check");
-				//print(faceBounds[0]);
+				// find the first available face
 				OpenCvSharp.Rect foundFace = faceBounds[0];
-				//print(foundFace.TopLeft);
-				//print(foundFace.BottomRight);
-				//print("-------");
 				int diff_x = foundFace.TopLeft.X+(foundFace.BottomRight.X-foundFace.TopLeft.X)/2; // find middle of the head
-
+				// move the object to the center of the face
 				object_move.transform.position = new Vector3((diff_x)/-1.57f, (foundFace.TopLeft.Y)/-2.3f, 2);
 			}
 
 			// processor.Image now holds data we'd like to visualize
 			output = Unity.MatToTexture(processor.Image, output);   // if output is valid texture it's buffer will be re-used, otherwise it will be re-created
+			// set the output to the texture the camera is aimed at
 			canvas_show.GetComponent<MeshRenderer>().material.mainTexture = Unity.MatToTexture(processor.Image, output);
 			return true;
 		}

@@ -1,9 +1,14 @@
-﻿Shader "Unlit/Tutorial02Shader"
+﻿Shader "MovingObjectShader"
 {
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
         _Color ("Color", Color) = (1,1,1,1)
+        _PlaneX_min ("Plane bound width min", Range(0, 300)) = 228
+        _PlaneX_max ("Plane bound width max", Range(0, 800)) = 652
+        _PlaneY_min ("Plane bound height min", Range(0, 300)) = 200
+        _PlaneY_max ("Plane bound height max", Range(0, 400)) = 310
+
     }
     SubShader
     {
@@ -33,6 +38,11 @@
 
             sampler2D _MainTex;
             fixed4 _Color;
+            int _PlaneX_min;
+            int _PlaneX_max;
+            int _PlaneY_min;
+            int _PlaneY_max;
+
 
             v2f vert (appdata IN)
             {
@@ -63,9 +73,9 @@
             fixed4 frag (v2f input) : COLOR
             {
                 fixed4 col = float4(0,0,0,0);
-                col.rgb.x = 1-(input.position.y-200)/(310-200);
-                col.rgb.y = (input.position.x-228)/(652-228);
-                col.rgb.z = (input.position.y-200)/(310-200);
+                col.rgb.x = 1-(input.position.y -_PlaneY_min)/(_PlaneY_max -_PlaneY_min);
+                col.rgb.y = (input.position.x -_PlaneX_min)/(_PlaneX_max - _PlaneX_min);
+                col.rgb.z = (input.position.y -_PlaneY_min)/(_PlaneY_max - _PlaneY_min);
 
                 col = col * input.col;
                 return col;

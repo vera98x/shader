@@ -69,6 +69,10 @@ Material:
     - _OcclusionStrength: 1
     - _OffsetSize: 3.69
     - _Parallax: 0.02
+    - _PlaneX_max: 652
+    - _PlaneX_min: 228
+    - _PlaneY_max: 310
+    - _PlaneY_min: 200
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
