@@ -1,7 +1,7 @@
 # exclude everything except directory
-/Library/*
-/Logs/*
-/Packages/*
-/ProjectSettings/*
-/Assets/OpenCV+Unity
 *.meta
+/Temp
+/Logs
+/Packages
+/Library
+/ProjectSettings
