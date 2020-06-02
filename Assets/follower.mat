@@ -70,19 +70,19 @@ Material:
     - _OffsetSize: 3.69
     - _Parallax: 0.02
     - _PlaneX_max: 0
-    - _PlaneX_min: 142
-    - _PlaneY_max: 109.6
-    - _PlaneY_min: 116.1
+    - _PlaneX_min: 226
+    - _PlaneY_max: 148.9
+    - _PlaneY_min: 109.8
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
-    - _b: 0.183
-    - _ballSize: 30
-    - _g: -0.272
+    - _b: -0.239
+    - _ballSize: 30.1
+    - _g: -0.123
     - _minBallSize: 2
-    - _r: -0.206
+    - _r: 0.089
     m_Colors:
     - _Color: {r: 1, g: 0.042452812, b: 0.042452812, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

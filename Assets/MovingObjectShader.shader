@@ -58,12 +58,16 @@
             {
                 v2f OUT;
                 float4 position_in_world_space = mul(unity_ObjectToWorld, IN.vertex);
-                float deltax = abs(position_in_world_space.x + _ScreenParams.x/10)/_ballSize + _minBallSize;
-                float deltay = abs(position_in_world_space.y + _ScreenParams.y/10)/_ballSize + _minBallSize;
-                OUT.position = UnityObjectToClipPos(IN.vertex* float4(deltax, deltay, 1, 1.0));
+                float half_x = _ScreenParams.x/2;
+                float half_y = _ScreenParams.y/2;
+
+                float deltax = abs(position_in_world_space.x + half_x/2)/_ballSize + _minBallSize;
+                float deltay = abs(position_in_world_space.y + half_y/2)/_ballSize + _minBallSize;
+
+                OUT.position = UnityObjectToClipPos(IN.vertex* float4(deltax, deltay, (deltax+deltay)/2, 1.0));
 
                 // get vertex normal in world space
-                half3 worldNormal = UnityObjectToWorldNormal(IN.normal);
+                half3 worldNormal = normalize(mul(IN.normal, (float3x3)unity_WorldToObject));
                 // dot product between normal and light direction for
                 // standard diffuse (Lambert) lighting
                 half nl = max(0, dot(worldNormal, _WorldSpaceLightPos0.xyz));
@@ -81,11 +85,14 @@
                 int y_min = _PlaneY_min;
                 int x_max = _ScreenParams.x - _PlaneX_max;
                 int y_max = _ScreenParams.y - _PlaneY_max;
+                // scale the position between 0 and 1
+                float pos_x = (input.position.x - x_min)/(x_max - x_min);
+                float pos_y = (input.position.y - y_min)/(y_max -y_min);
 
                 fixed4 col = float4(0,0,0,1);
-                col.rgb.x = 1-(input.position.y - y_min)/(y_max -y_min) + _r;
-                col.rgb.y = (input.position.x - x_min)/(x_max - x_min) + _g;
-                col.rgb.z = min((input.position.y - y_min)/(y_max - y_min), (1-(input.position.x*2 - x_min)/(x_max - x_min))) + _b;
+                col.rgb.x = 1-pos_y + _r;
+                col.rgb.y = pos_x + _g;
+                col.rgb.z = min(pos_y, (1-pos_x)/1.5) + _b; // change the ratio to x:y = 1:1
 
                 col = col * input.col;
                 return col;
