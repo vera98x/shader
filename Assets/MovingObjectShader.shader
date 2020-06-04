@@ -11,8 +11,8 @@
         _r ("red", Range(-1, 1)) = 0
         _g ("green", Range(-1, 1)) = 0
         _b ("blue", Range(-1, 1)) = 0
-        _ballSize ("Ballsize", Range(0, 50)) = 30
-        _minBallSize("Min ballsize", Range(0.5 , 3)) = 2
+        _ballSize ("Ballsize", Range(0, 3)) = 3
+        _minBallSize("Min ballsize", Range(0.5 , 150)) = 60
 
     }
     SubShader
@@ -57,20 +57,21 @@
             v2f vert (appdata IN)
             {
                 v2f OUT;
-                float4 position_in_world_space = mul(unity_ObjectToWorld, IN.vertex);
-                float half_x = _ScreenParams.x/2;
-                float half_y = _ScreenParams.y/2;
 
-                float deltax = abs(position_in_world_space.x + half_x/2)/_ballSize + _minBallSize;
-                float deltay = abs(position_in_world_space.y + half_y/2)/_ballSize + _minBallSize;
+                //range -1->1
+                float4 pos_clip = UnityObjectToClipPos(IN.vertex);
 
-                OUT.position = UnityObjectToClipPos(IN.vertex* float4(deltax, deltay, (deltax+deltay)/2, 1.0));
+                float deltax = abs(pos_clip.x)*_ballSize + _minBallSize;
+                float deltay = abs(pos_clip.y)*_ballSize + _minBallSize;
+
+                OUT.position = UnityObjectToClipPos(IN.vertex* float4(deltax, deltay, 2, 1.0)/4);
+
 
                 // get vertex normal in world space
                 half3 worldNormal = normalize(mul(IN.normal, (float3x3)unity_WorldToObject));
                 // dot product between normal and light direction for
-                // standard diffuse (Lambert) lighting
-                half nl = max(0, dot(worldNormal, _WorldSpaceLightPos0.xyz));
+                // standard diffuse lighting
+                half nl = max(0, dot(worldNormal, normalize(_WorldSpaceLightPos0.xyz)));
                 // factor in the light color
                 OUT.col = nl * _LightColor0;
 

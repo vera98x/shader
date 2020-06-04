@@ -45,22 +45,20 @@
 		/// </summary>
 		protected override bool ProcessTexture(WebCamTexture input, ref Texture2D output)
 		{
-			// detect everything we're interested in
+			// detect faces
 			processor.ProcessTexture(input, TextureParameters);
 
-			// get places of detected faces
+			// get regions of detected faces
 			List<OpenCvSharp.Rect> faceBounds = processor.getFaceBounds();
 			if(faceBounds.Count > 0)
 			{
-				// find the first available face
+				// find the first found face
 				OpenCvSharp.Rect foundFace = faceBounds[0];
 				int diff_x = foundFace.TopLeft.X+(foundFace.BottomRight.X-foundFace.TopLeft.X)/2; // find middle of the head
 				// move the object to the center of the face
 				object_move.transform.position = new Vector3((diff_x)/-1.57f, (foundFace.TopLeft.Y)/-2.3f, 2);
 			}
 
-			// processor.Image now holds data we'd like to visualize
-			output = Unity.MatToTexture(processor.Image, output);   // if output is valid texture it's buffer will be re-used, otherwise it will be re-created
 			// set the output to the texture the camera is aimed at
 			canvas_show.GetComponent<MeshRenderer>().material.mainTexture = Unity.MatToTexture(processor.Image, output);
 			return true;

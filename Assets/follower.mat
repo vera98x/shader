@@ -79,9 +79,9 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     - _b: -0.239
-    - _ballSize: 30.1
+    - _ballSize: 1
     - _g: -0.123
-    - _minBallSize: 2
+    - _minBallSize: 64.2
     - _r: 0.089
     m_Colors:
     - _Color: {r: 1, g: 0.042452812, b: 0.042452812, a: 1}

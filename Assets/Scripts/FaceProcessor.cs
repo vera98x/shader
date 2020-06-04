@@ -229,12 +229,6 @@
                 // fix shadows
                 Cv2.EqualizeHist(gray, gray);
 
-                /*Mat normalized = new Mat();
-                CLAHE clahe = CLAHE.Create();
-                clahe.TilesGridSize = new Size(8, 8);
-                clahe.Apply(gray, normalized);
-                gray = normalized;*/
-
                 // detect matching regions (faces bounding)
                 Rect[] rawFaces = cascadeFaces.DetectMultiScale(gray, 1.2, 6);
 				if (Faces.Count != rawFaces.Length)
